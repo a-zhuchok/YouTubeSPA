@@ -1,0 +1,119 @@
+* {
+  box-sizing: border-box;
+  font: "Fira Sans", sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: #007AFF;
+}
+.sign, .login {
+  min-height: 100vh;
+  text-align: center;
+  display: flex;
+  background-color: #f4f0f0;
+}
+.sign_content {
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 22px;
+  padding-left: 70px;
+  padding-right: 70px;
+  min-width: 510px;
+  margin: auto;
+  border-radius: 5px;
+  border: #e3e0e0 1px solid;
+}
+.login_content {
+  background-color: white;
+  padding: 70px;
+  min-width: 510px;
+  margin: auto;
+  border-radius: 5px;
+  border: #e3e0e0 1px solid;
+}
+.title {
+  font-weight: 600;
+  font-size: 25px;
+}
+.searchInput_title {
+  padding-bottom: 20px;
+}
+.header {
+  margin: auto;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #007AFF;
+  font-size: 20px;
+  background-color: white;
+}
+.header_menu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  align-items: center;
+  padding: 10px 0px;
+}
+
+.searchInput {
+  min-height: 100vh;
+  background-color: #f4f0f0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 15%;
+}
+.searchInput_input {
+  width: 600px;
+  text-align: start;
+}
+.searchResultInput {
+  background-color: #f4f0f0;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.searchResultInput_content {
+  width: 90%;
+}
+.searchResultInput_input {
+  padding-top: 10px;
+}
+.resultList_title {
+  font-weight: 400;
+  font-size: 15px;
+}
+.resultList {
+  min-height: 100vh;
+  background-color: #f4f0f0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 30px;
+}
+.resultList_videos {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.resultList_content {
+  width: 90%;
+}
+.resultList_video {
+  padding-top: 20px;
+  width: 25%;
+}
+.resultList_video-title {
+  width: 300px;
+}
+.resultList_video-channelTitle {
+  color: rgb(126, 126, 126);
+  width: 300px;
+}
