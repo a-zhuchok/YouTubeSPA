@@ -98,22 +98,52 @@ a {
   flex-direction: column;
   padding-top: 30px;
 }
-.resultList_videos {
+.resultVideosTable_videos {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
 }
+.resultVideosList_video {
+  display: grid;
+  grid-template-columns: repeat(2, 300px);
+  align-items: center;
+}
 .resultList_content {
   width: 90%;
 }
-.resultList_video {
+.resultVideosTable_video {
   padding-top: 20px;
   width: 25%;
 }
-.resultList_video-title {
+.resultVideosTable_video-title {
   width: 300px;
 }
-.resultList_video-channelTitle {
+.resultVideosTable_video-channelTitle {
   color: rgb(126, 126, 126);
   width: 300px;
+}
+.favoritesList {
+  min-height: 100vh;
+  background-color: #f4f0f0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 30px;
+}
+.favoritesList_content{
+  width: 90%;
+}
+.favoritesList_title {
+  padding-bottom: 25px;
+}
+.favoritesList_item {
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content:space-between;
+}
+.favoritesList_setting {
+  padding-right: 10px;
+  cursor: pointer;
 }

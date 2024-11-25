@@ -1,5 +1,5 @@
 import React,  {useState} from 'react';
-import { Button, Form, Input, Radio, message } from 'antd';
+import { Button, Form, Input, Radio, InputNumber, message } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import logo from '../img/logo.png';
 import { fetchAddUser } from '../redux/signFormSlice';
@@ -9,45 +9,45 @@ import { useDispatch, useSelector } from 'react-redux';
 const Sign = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [messageApi, contextHolder] = message.useMessage();
+  const { status } = useSelector(state => state.newUser);
+  const success = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'Пользователь зарегистрирован!',
+    })
+  }
+  const error = () => {
+    messageApi.open({
+      type: 'error',
+      content: 'Такой пользователь уже есть!',
+    })
+  }
+  const [value, setValue] = useState()
+  const onChange = (e) => {
+    setValue(e.target.value)
+  }
+  
   const onFinish = (newUser) => {
     try {
       dispatch(fetchAddUser(newUser))
       success()
-      
+      setTimeout(()=>navigate('/login'), 1000)
     }
     catch {
       error()
     }
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo)
-  };
-  const [value, setValue] = useState(1)
-  const onChange = (e) => {
-    setValue(e.target.value)
-  }
-  const [messageApi, contextHolder] = message.useMessage();
-  const success = () => {
-    messageApi.open({
-      type: 'success',
-      content: 'User is registered!',
-    })
-  };
-  const error = () => {
-    messageApi.open({
-      type: 'error',
-      content: 'This user already exists!',
-    })
-  };
+
   return (
     <div class='sign'>
       <div class='sign_content'>
+      {status === 'loading' && <p>Загрузка...</p>}
         <img class='sign_logo' src={logo} width={60} height={60} alt='logo' />
         <p class='sign_title title'>Регистрация</p>
         <Form name="basic" labelCol={{ span: 8 }} style={{ maxWidth: 600 }}
           layout="vertical"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}>
+          onFinish={onFinish}>
 
           <Form.Item
             label="Имя"
@@ -122,6 +122,7 @@ const Sign = () => {
           <Form.Item
             label="Возраст"
             name="age"
+            type='number'
             layout="vertical"
             rules={[
               {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import SearchResultInput from './SearchResultInput';
-import ResultList from './ResultList';
+import ResultVideos from './ResultVideos';
 
 const SearchResult = () => {
 
@@ -9,7 +9,7 @@ const SearchResult = () => {
     <>
       <Header />
       <SearchResultInput />
-      <ResultList />
+      <ResultVideos />
     </>
   )
 }

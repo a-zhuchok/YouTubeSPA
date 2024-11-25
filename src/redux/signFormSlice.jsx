@@ -6,15 +6,14 @@ const headers = {
 }
 const config = { headers }
 const addUser = async newUser => {
-    const response = await axios.post(process.env.SIGHUP_URL, JSON.stringify(newUser), config)
-    console.log('response',newUser)
-    return await response.json()
-  }
+    const response = await axios.post('https://todo-redev.herokuapp.com/api/users/register', JSON.stringify(newUser), config)
+    return await response
+}
+   
 const fetchAddUser = createAsyncThunk('user/fetchAddUser', async newUser => {
   const  data  = await addUser(newUser)
   return data
 }) 
-
 
 const signFormSlice = createSlice({
   name: 'newUser',
@@ -24,7 +23,14 @@ const signFormSlice = createSlice({
     builder.addCase(fetchAddUser.fulfilled, (state, action) => {
         state.status = 'succeeded'
         state.data = action.payload
-        console.log('data',action.payload)
+    })
+    .addCase(fetchAddUser.pending, (state, action) => {
+      state.status = 'loading'
+      state.error = null
+    })
+    .addCase(fetchAddUser.rejected, (state, action) => {
+    state.status = 'failed'
+    state.error = action.payload
     })
   },
 })

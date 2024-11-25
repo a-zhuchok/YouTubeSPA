@@ -8,7 +8,7 @@ import { fetchLoginUser } from '../redux/loginSlice';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { status } = useSelector(state => state.user);
+  const { status, data } = useSelector(state => state.user);
   const onFinish = (user) => {
     dispatch(fetchLoginUser(user))
   };
@@ -30,7 +30,7 @@ const Login = () => {
 
           <Form.Item
             label="Логин"
-            name="username"
+            name="email"
             layout="vertical"
             rules={[
               {
