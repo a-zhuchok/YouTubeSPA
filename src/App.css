@@ -10,7 +10,24 @@ ul {
 a {
   text-decoration: none;
   color: #007AFF;
+  position: relative;
 }
+
+.menu_link::after {
+  content: '';                     
+  position: absolute;             
+  left: 0;                       
+  bottom: -25px;                   
+  height: 2px;                    
+  width: 100%;                   
+  background-color: transparent;  
+  transition: background-color 0.3s; 
+}
+
+.menu_link:hover::after {
+  background-color: #007AFF     
+}
+
 .sign, .login {
   min-height: 100vh;
   text-align: center;
@@ -75,7 +92,7 @@ a {
 }
 .searchResultInput {
   background-color: #f4f0f0;
-  padding-top: 30px;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,14 +113,19 @@ a {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: 30px;
+  padding-top: 40px;
 }
-.resultVideosTable_videos {
+.resultVideosTable {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
 }
+.resultList_header {
+  display: flex;
+  justify-content: space-between;
+}
 .resultVideosList_video {
+  padding-top: 10px;
   display: grid;
   grid-template-columns: repeat(2, 300px);
   align-items: center;
@@ -115,12 +137,16 @@ a {
   padding-top: 20px;
   width: 25%;
 }
-.resultVideosTable_video-title {
+.videoTitle {
   width: 300px;
+  padding-bottom: 10px;
 }
-.resultVideosTable_video-channelTitle {
+.videoChannelTitle {
   color: rgb(126, 126, 126);
   width: 300px;
+}
+.videoViewCount {
+  color: rgb(126, 126, 126);
 }
 .favoritesList {
   min-height: 100vh;
@@ -128,13 +154,13 @@ a {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: 30px;
+  padding-top: 40px;
 }
 .favoritesList_content{
   width: 90%;
 }
 .favoritesList_title {
-  padding-bottom: 25px;
+  padding-bottom: 40px;
 }
 .favoritesList_item {
   background-color: white;

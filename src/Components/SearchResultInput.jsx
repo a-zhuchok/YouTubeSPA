@@ -1,34 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Tooltip, Button } from 'antd';
+import React, { useState } from 'react';
+import { Input, Tooltip } from 'antd';
 import icon_like from '../img/icon_like.png';
 import icon_like_saved from '../img/icon_like_saved.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSearchText } from '../redux/searchTextSlice';
+import { addSearchData } from '../redux/searchDataSlice';
 import { fetchAddFavorites } from '../redux/favoritesSlice';
 import SaveModal from './SaveModal';
 import { useNavigate } from 'react-router-dom';
+import { updateModalData, openModal, closeModal } from '../redux/modalSlice';
 
 const { Search } = Input;
 
 const SearchResultInput = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { searchText } = useSelector(state => state.searchText);
-    const [open, setOpen] = useState(false);
+    const { searchData } = useSelector(state => state.searchData);
+    const { modalData, isOpen } = useSelector(state => state.modal);
     const [icon, setIcon] = useState(icon_like);
-    const [selectedValue, setSelectedValue] = useState("relevance");
-    const [inputValue, setInputValue] = useState(20);
     const [iconTitle, setIconTitle] = useState('');
-    const [title, setTitle]=useState('')
 
-    localStorage.setItem('searchText', searchText)
-   
-    
-
-    const handleSearch = (value) => { //искать запрос
-        if(value.length!==0){
-            dispatch(addSearchText(value));
-            
+    const onSearch = (value) => {
+        if (value.length !== 0) {
+            dispatch(addSearchData({ request: value, order: 'relevance', maxResults: 20 }));
         }
         else {
             navigate('/search')
@@ -36,29 +29,22 @@ const SearchResultInput = () => {
         setIcon(icon_like)
         setIconTitle('Сохранить запрос')
     };
-
-    const handleModalOpen = (icon) => { //открыть модальное
-        icon===icon_like?setOpen(true):setOpen(false) 
+    
+    const handleModalOpen = (icon) => {
+        dispatch(updateModalData(modalData))
+        icon === icon_like ? dispatch(openModal()) : false
     };
 
-    const handleModalClose = () => { //закрыть модальное
-        setOpen(false);
-        setInputValue(20);
-        setSelectedValue("relevance");
-        setTitle('')
+    const handleModalClose = () => {
+        dispatch(closeModal())
     };
 
-    const handleFormFinish = (values) => { //добавить в избранное
-        const formValues = { ...values, maxResults: inputValue, request: searchText };
-        const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${formValues.maxResults}&order=${formValues.select}&q=${formValues.request}&type=video&key=YOUR_API_KEY`;
-        dispatch(fetchAddFavorites(url + '*' + formValues.title));
-        handleModalClose();
+    const handleFormFinish = () => {
+        const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${modalData.maxResults}&order=${modalData.order}&q=${searchData.request}&type=video&key=YOUR_API_KEY`;
+        dispatch(fetchAddFavorites(url + '*' + modalData.title));
+        handleModalClose()
         setIcon(icon_like_saved);
         setIconTitle('Поиск сохранён в избранных')
-    };
-
-    const handleFormFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
     };
 
     return (
@@ -67,33 +53,20 @@ const SearchResultInput = () => {
                 <p className='searchResultInput_title title'>Поиск видео</p>
                 <div className='searchResultInput_input'>
                     <Search
-                        placeholder="Введите текст поиска"
-                        defaultValue={searchText}
+                        placeholder='Введите текст поиска'
+                        defaultValue={searchData.request}
                         allowClear
-                        enterButton="Найти"
-                        size="large"
-                        onSearch={handleSearch}
+                        enterButton='Найти'
+                        size='large'
+                        onSearch={onSearch}
                         suffix={
-                            <Tooltip title={iconTitle} placement="top">
-                                <img src={icon} alt="Save" width={28} onClick={()=>handleModalOpen(icon)} />
+                            <Tooltip title={iconTitle} placement='top'>
+                                <img src={icon} alt='Save' width={28} onClick={() => handleModalOpen(icon)} />
                             </Tooltip>
                         }
                     />
                 </div>
-
-                <SaveModal
-                    visible={open}
-                    onClose={handleModalClose}
-                    onFinish={handleFormFinish}
-                    onFinishFailed={handleFormFinishFailed}
-                    searchText={searchText}
-                    inputValue={inputValue}
-                    setInputValue={setInputValue}
-                    selectedValue={selectedValue}
-                    setSelectedValue={setSelectedValue}
-                    title={title}
-                    setTitle={setTitle} 
-                />
+                {isOpen && <SaveModal onClose={handleModalClose} onFinish={handleFormFinish} />}
             </div>
         </div>
     );

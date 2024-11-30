@@ -1,60 +1,57 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Modal, Form, Input, Select, Slider, InputNumber, Row, Col, Button } from 'antd';
+import { setTitle, setMaxResults, setOrder } from '../redux/modalSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { Option } = Select;
 
-const SaveModal = ({ visible, title, onClose, onFinish,  setTitle, onFinishFailed, searchText, inputValue, setInputValue, selectedValue, setSelectedValue }) => {
-
-    const handleSliderChange = (value) => {
-        setInputValue(value);
-    };
-
-    const handleSelectChange = (value) => {
-        setSelectedValue(value);
-    };
-console.log(title)
+const SaveModal = ({ onClose, onFinish }) => {
+    const dispatch = useDispatch();
+    const { modalData, isOpen } = useSelector(state => state.modal);
+    const { searchData } = useSelector(state => state.searchData);
+    
     return (
         <Modal
-            open={visible}
+            open={isOpen}
             title={<div style={{ textAlign: 'center' }}>Сохранить запрос</div>}
             onCancel={onClose}
             footer={null}
         >
             <Form
-                layout="vertical"
+                layout='vertical'
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
             >
-                <Form.Item label="Запрос" name="request">
-                    <Input placeholder={searchText} disabled />
+                <Form.Item label='Запрос' name='request'>
+                    <Input placeholder={searchData.request} disabled />
                 </Form.Item>
 
                 <Form.Item
-                    label="Название"
-                    name="title"
+                    label='Название'
+                    name='title'
                     rules={[{ required: true, message: 'Пожалуйста, введите название запроса!' }]}
                 >
-                    <Input placeholder="Укажите название" initialValue={title}  />
+                    <Input placeholder='Укажите название' value={modalData.title}
+                        onChange={(event) => dispatch(setTitle(event.target.value))} />
                 </Form.Item>
 
-                <Form.Item label="Сортировать по" name="select" initialValue={selectedValue}>
-                    <Select value={selectedValue} onChange={handleSelectChange}>
-                        <Option value="relevance">Без сортировки</Option>
-                        <Option value="date">По дате</Option>
-                        <Option value="rating">По рейтингу</Option>
-                        <Option value="title">По алфавитному порядку</Option>
-                        <Option value="viewCount">По количеству просмотров</Option>
+                <Form.Item label='Сортировать по' name='select' initialValue={modalData.order}>
+                    <Select onChange={(value) => dispatch(setOrder(value))}>
+                        <Option value='relevance'>Без сортировки</Option>
+                        <Option value='date'>По дате</Option>
+                        <Option value='rating'>По рейтингу</Option>
+                        <Option value='title'>По алфавитному порядку</Option>
+                        <Option value='viewCount'>По количеству просмотров</Option>
                     </Select>
                 </Form.Item>
 
-                <Form.Item label="Максимальное количество" initialValue={inputValue}>
+                <Form.Item label='Максимальное количество' initialValue={modalData.maxResults}>
                     <Row>
                         <Col span={12}>
                             <Slider
                                 min={1}
                                 max={50}
-                                onChange={handleSliderChange}
-                                value={typeof inputValue === 'number' ? inputValue : 0}
+                                onChange={(value) => dispatch(setMaxResults(value))}
+                                value={typeof modalData.maxResults === 'number' ? modalData.maxResults : 0}
                             />
                         </Col>
                         <Col span={4}>
@@ -62,8 +59,8 @@ console.log(title)
                                 min={1}
                                 max={50}
                                 style={{ margin: '0 16px' }}
-                                value={inputValue}
-                                onChange={handleSliderChange}
+                                value={modalData.maxResults}
+                                onChange={(value) => dispatch(setMaxResults(value))}
                             />
                         </Col>
                     </Row>
@@ -73,7 +70,7 @@ console.log(title)
                     <Button onClick={onClose} style={{ width: 150, marginRight: '40px', color: '#1677ff' }}>
                         Не сохранять
                     </Button>
-                    <Button type="primary" htmlType="submit" style={{ width: 150 }}>
+                    <Button type='primary' htmlType='submit' style={{ width: 150 }}>
                         Сохранить
                     </Button>
                 </Form.Item>

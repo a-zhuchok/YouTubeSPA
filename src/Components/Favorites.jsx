@@ -6,7 +6,7 @@ const Favorites = () => {
   return (
     <>
       <Header />
-      <FavoritesList/>
+      <FavoritesList />
     </>
   )
 }

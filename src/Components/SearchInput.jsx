@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Input, Space } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchGetVideos } from '../redux/videosSlice';
+import React from 'react';
+import { Input } from 'antd';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addSearchText } from '../redux/searchTextSlice';
+import { addSearchData } from '../redux/searchDataSlice';
 
 const SearchInput = () => {
-   
+
     const { Search } = Input;
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const onSearch = (value) => {
-        if(value!==''){
-            dispatch(addSearchText(value))
-            dispatch(fetchGetVideos(value))
-            navigate('/searchResult') 
+        if (value !== '') {
+            dispatch(addSearchData({ request: value, order: 'relevance', maxResults: 20 }))
+            navigate('/searchResult')
         }
     };
 
@@ -23,10 +21,10 @@ const SearchInput = () => {
             <p class='searchInput_title title'>Поиск видео</p>
             <div class='searchInput_input'>
                 <Search
-                    placeholder="введите текст поиска"
+                    placeholder='введите текст поиска'
                     allowClear
-                    enterButton="Найти"
-                    size="large"
+                    enterButton='Найти'
+                    size='large'
                     onSearch={onSearch}
                 />
             </div>

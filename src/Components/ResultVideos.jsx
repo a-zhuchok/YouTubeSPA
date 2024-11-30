@@ -9,45 +9,42 @@ import ResultVideosList from './ResultVideosList';
 import ResultVideosTable from './ResultVideosTable';
 
 const ResultVideos = () => {
-    const[tableView, setTableView]=useState(true);
-   const[iconList, setIconList]=useState(iconList_grey);
-   const[iconTable, setIconTable]=useState(iconTable_black);
-    const { searchText } = useSelector(state => state.searchText);
-    const { status, data } = useSelector(state => state.videos);
     const dispatch = useDispatch();
+    const [tableView, setTableView] = useState(true);
+    const [iconList, setIconList] = useState(iconList_grey);
+    const [iconTable, setIconTable] = useState(iconTable_black);
+    const { searchData } = useSelector(state => state.searchData);
+    const { status, data } = useSelector(state => state.videos);
     useEffect(() => {
-            dispatch(fetchGetVideos(searchText))
-       
-    }, [searchText]);
-    console.log('status:', status);
-    console.log('data:', data);
-    console.log('tableView:', tableView);
-    const changeTableView=()=>{
+        dispatch(fetchGetVideos(searchData))
+        setTableView(true)
+    }, [searchData]);
+
+    const changeTableView = () => {
         setTableView(true)
         setIconList(iconList_grey)
         setIconTable(iconTable_black)
-    }
+    };
 
-    const changeListView=()=>{
+    const changeListView = () => {
         setTableView(false)
         setIconList(iconList_black)
         setIconTable(iconTable_grey)
-    }
-    
+    };
+
     return (
         <div class='resultList'>
             <div class='resultList_content'>
                 <div class='resultList_header'>
-                <p class='resultList_title'>Видео по запросу "{searchText}"</p>
-                <div class='resultList_header-switcher'>
-                    <img src={iconTable} alt='iconTable_activ' onClick={()=>changeTableView()}/>
-                    <img src={iconList} alt='iconTable_activ' onClick={()=>changeListView()}/>
-                </div>
+                    <p class='resultList_title'>Видео по запросу "{searchData.request}"</p>
+                    <div class='resultList_header-switcher'>
+                        <img src={iconTable} alt='iconTable' onClick={() => changeTableView()} />
+                        <img src={iconList} alt='iconList' onClick={() => changeListView()} />
+                    </div>
                 </div>
                 {status === 'loading' && <p>Загрузка...</p>}
                 {status === 'succeeded' &&
-                tableView? <ResultVideosTable data={data}/> :<p>lll</p>}
-                
+                    (tableView ? <ResultVideosTable data={data} /> : <ResultVideosList data={data} />)}
             </div>
         </div>
     )

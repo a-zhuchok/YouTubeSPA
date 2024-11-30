@@ -2,19 +2,20 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const headers = {
-  Authorization: "Bearer token",
-  "Content-Type": "application/json"
-}
-const config = { headers }
-const loginUser = async user => {
-  const response = await axios.post('https://todo-redev.herokuapp.com/api/auth/login', JSON.stringify(user), config)
-  return await response
-}
+  Authorization: 'Bearer token',
+  'Content-Type': 'application/json'
+};
+const config = { headers };
 
+const loginUser = async user => {
+  const response = await axios.post(import.meta.env.VITE_APP_LOGIN_URL, JSON.stringify(user), config)
+  return await response
+};
 const fetchLoginUser = createAsyncThunk('user/fetchLoginUser', async user => {
   const { data } = await loginUser(user)
   return data
-})
+});
+
 const loginSlice = createSlice({
   name: 'user',
   initialState:{},
