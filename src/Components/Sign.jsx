@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Input, Radio, message } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import logo from '../img/logo.png';
@@ -10,8 +10,18 @@ const Sign = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
-  const { status } = useSelector(state => state.newUser);
+  const { status, error } = useSelector(state => state.newUser);
   const [value, setValue] = useState();
+ 
+  useEffect(() => {
+    if (status === 'succeeded') {
+      success()
+      setTimeout(() => navigate('/login'), 1000)
+    }
+    if (status === 'failed') {
+      err(error)
+    }
+  }, [status])
 
   const success = () => {
     messageApi.open({
@@ -19,21 +29,14 @@ const Sign = () => {
       content: 'Пользователь зарегистрирован!',
     })
   };
-  const error = () => {
+  const err = (error) => {
     messageApi.open({
       type: 'error',
-      content: 'Проверьте правильность введенных данных!',
+      content: error,
     })
   };
   const onFinish = (newUser) => {
-    try {
       dispatch(fetchAddUser(newUser))
-      success()
-      setTimeout(() => navigate('/login'), 1000)
-    }
-    catch {
-      error()
-    }
   };
 
   return (

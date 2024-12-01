@@ -7,8 +7,12 @@ const headers = {
 const config = { headers };
 
 const addUser = async newUser => {
-  const response = await axios.post(import.meta.env.VITE_APP_SIGHUP_URL, JSON.stringify(newUser), config)
-  return await response
+  try {
+    const response = await axios.post(import.meta.env.VITE_APP_SIGHUP_URL, JSON.stringify(newUser), config)
+    return response.data 
+  } catch (error) {
+    throw error.response.data || error.message
+  }
 };
 const fetchAddUser = createAsyncThunk('user/fetchAddUser', async newUser => {
   const data = await addUser(newUser)
@@ -30,7 +34,7 @@ const signFormSlice = createSlice({
       })
       .addCase(fetchAddUser.rejected, (state, action) => {
         state.status = 'failed'
-        state.error = action.payload
+        state.error = action.error.message.split(' ').map(val=>val==='username' ? 'Введенное имя': val).splice(1, 4).join(' ')
       })
   },
 })

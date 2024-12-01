@@ -8,8 +8,8 @@ const headers = {
 const config = { headers };
 
 const loginUser = async user => {
-  const response = await axios.post(import.meta.env.VITE_APP_LOGIN_URL, JSON.stringify(user), config)
-  return await response
+    const response = await axios.post(import.meta.env.VITE_APP_LOGIN_URL, JSON.stringify(user), config)
+    return response
 };
 const fetchLoginUser = createAsyncThunk('user/fetchLoginUser', async user => {
   const { data } = await loginUser(user)
@@ -32,7 +32,7 @@ const loginSlice = createSlice({
     })
     .addCase(fetchLoginUser.rejected, (state, action) => {
     state.status = 'failed'
-    state.error = action.payload
+    state.error = action.error.message
     })
   },
 })

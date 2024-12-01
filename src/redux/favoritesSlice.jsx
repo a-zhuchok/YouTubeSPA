@@ -14,7 +14,6 @@ const getFavorites = async () => {
 };
 const fetchGetFavorites = createAsyncThunk('favorites/fetchGetFavorites', async () => {
   const { data } = await getFavorites()
-  console.log(data)
   return data
 });
 const addFavorites = async favorites => {

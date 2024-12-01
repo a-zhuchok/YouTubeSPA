@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import logo from '../img/logo.png';
 import { useNavigate, Link } from 'react-router-dom';
@@ -9,17 +9,17 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
-  const { status, data } = useSelector(state => state.user);
-  const onFinish = (user) => {
-    if(status==='succeeded'){
-      dispatch(fetchLoginUser(user))
-    }
-    error()
-  };
+  const { status } = useSelector(state => state.user);
+
+    const onFinish = (user) => {
+        dispatch(fetchLoginUser(user))
+      if(status === 'failed') { err() }
+    };
+  
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)
   };
-  const error = () => {
+  const err = () => {
     messageApi.open({
       type: 'error',
       content: 'Проверьте правильность введенных данных!',
