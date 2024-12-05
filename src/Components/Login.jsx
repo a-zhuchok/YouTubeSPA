@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import { Button, Form, Input, message } from 'antd';
 import logo from '../img/logo.png';
 import { useNavigate, Link } from 'react-router-dom';
@@ -13,8 +13,9 @@ const Login = () => {
 
     const onFinish = (user) => {
         dispatch(fetchLoginUser(user))
-      if(status === 'failed') { err() }
     };
+
+  useEffect(()=>{if(status === 'failed') { err() }}, [status])
   
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)

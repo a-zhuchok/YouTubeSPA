@@ -5,7 +5,7 @@ import logo from '../img/logo.png';
 import { fetchAddUser } from '../redux/signFormSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+ 
 const Sign = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
