@@ -8,11 +8,11 @@ const Header = () => {
         <div class='header'>
             <div class='header_menu'>
                 <img src={logo} alt='logo' width={50} height={50} />
-                <p><Link class='menu_link' to='/search'>Поиск</Link></p>
-                <p><Link class='menu_link' to='/favorites'>Избранное</Link></p>
+                <p><a class='menu_link' href='/search'>Поиск</a></p>
+                <p><a class='menu_link' href='/favorites'>Избранное</a></p>
             </div>
             <div class='header_exit'>
-                <p><Link class='menu_link' to='/login'>Выйти</Link></p>
+                <p><a class='menu_link' href='/login'>Выйти</a></p>
             </div>
         </div>
     )
