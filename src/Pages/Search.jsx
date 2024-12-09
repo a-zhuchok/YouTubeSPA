@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from './Header';
-import SearchInput from './SearchInput';
+import Header from '../Components/Header';
+import SearchInput from '../Components/SearchInput';
 
 const Search = () => {
 

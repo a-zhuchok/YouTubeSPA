@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from './Header';
-import SearchResultInput from './SearchResultInput';
-import ResultVideos from './ResultVideos';
+import Header from '../Components/Header';
+import SearchResultInput from '../Components/SearchResultInput';
+import ResultVideos from '../Components/ResultVideos';
 
 const SearchResult = () => {
 

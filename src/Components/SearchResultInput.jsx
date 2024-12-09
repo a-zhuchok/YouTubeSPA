@@ -40,7 +40,7 @@ const SearchResultInput = () => {
     };
 
     const handleFormFinish = () => {
-        const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${modalData.maxResults}&order=${modalData.order}&q=${searchData.request}&type=video&key=YOUR_API_KEY`;
+        const url = import.meta.env.VITE_APP_LOGIN_URL + `&maxResults=${modalData.maxResults}&order=${modalData.order}&q=${searchData.request}&type=video&key=YOUR_API_KEY`;
         dispatch(fetchAddFavorites(url + '*' + modalData.title));
         handleModalClose()
         setIcon(icon_like_saved);

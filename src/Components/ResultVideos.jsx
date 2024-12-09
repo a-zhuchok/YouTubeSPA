@@ -5,8 +5,7 @@ import iconTable_black from '../img/iconTable_black.png';
 import iconList_grey from '../img/iconList_grey.png';
 import iconList_black from '../img/iconList_black.png';
 import iconTable_grey from '../img/iconTable_grey.png';
-import ResultVideosList from './ResultVideosList';
-import ResultVideosTable from './ResultVideosTable';
+import { formatViewsCount } from '../utils';
 
 const ResultVideos = () => {
     const dispatch = useDispatch();
@@ -44,7 +43,19 @@ const ResultVideos = () => {
                 </div>
                 {status === 'loading' && <p>Загрузка...</p>}
                 {status === 'succeeded' &&
-                    (tableView ? <ResultVideosTable data={data} /> : <ResultVideosList data={data} />)}
+                    <div>
+                        <ul class={tableView ? 'resultVideosTable' : 'resultVideosList'} >
+                            {data.map((video) =>
+                                <li class={tableView ? 'resultVideosTable_video' : 'resultVideosList_video'}>
+                                    <iframe width={300} src={'https://www.youtube.com/embed/' + video.id.videoId} allow='autoplay; encrypted-media' allowfullscreen></iframe>
+                                    <div class={tableView ? 'resultVideosTable_text' : 'resultVideosList_text'}>
+                                        <p class='videoTitle'>{video.snippet.title}</p>
+                                        <p class='videoChannelTitle'>{video.snippet.channelTitle}</p>
+                                        <p class='videoViewCount'>{formatViewsCount(video.viewCount)}</p>
+                                    </div>
+                                </li>)}
+                        </ul>
+                    </div>}
             </div>
         </div>
     )

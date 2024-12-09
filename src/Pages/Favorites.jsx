@@ -1,5 +1,5 @@
-import Header from './Header';
-import FavoritesList from './FavoritesList';
+import Header from '../Components/Header';
+import FavoritesList from '../Components/FavoritesList';
 
 const Favorites = () => {
 
